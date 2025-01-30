@@ -13,3 +13,4 @@ namespace expertsession.Data
         public DbSet<StudentRegister> StudentRegister { get; set; }
     }
 }
+    
