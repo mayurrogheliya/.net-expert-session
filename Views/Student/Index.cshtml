@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Student Data";
+}
+
+@model List<expertsession.Models.AddStudentModel>;
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Student Table</h3>
+    <a class="btn btn-primary" asp-controller="Student" asp-action="AddStudent">Add</a>
+</div>
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["msg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Sr No.</th>
+                <th scope="col">Student Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Age</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+                @{
+                    int a = 1;
+                }
+            @if (Model != null && Model.Count > 0)
+            {
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td>@a</td>
+                        <td>@student.Id</td>
+                        <td>@student.name</td>
+                        <td>@student.email</td>
+                        <td>@student.age</td>
+                        <td>
+                                <a class="btn btn-primary btn-sm mb-2 mb-sm-0" asp-controller="Student" asp-action="EditStudent" asp-route-id="@student.Id">Edit</a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Student" asp-action="DeleteStudent" asp-route-id="@student.Id">Delete</a>
+
+                        </td>
+                    </tr>
+                    a++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">
+                        No student data available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

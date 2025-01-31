@@ -33,5 +33,96 @@ namespace expertsession.Controllers
             return RedirectToAction("StudentAdd");
         }
 
+        // ***********************************************************************
+
+        AddStudentModel objStudent = new AddStudentModel();
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            objStudent = new AddStudentModel();
+            List<AddStudentModel> lst = objStudent.getData("");
+            return View(lst);
+        }
+
+        [HttpGet]
+        public IActionResult AddStudent()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddStudent(AddStudentModel stu)
+        {
+            bool res;
+            if (ModelState.IsValid)
+            {
+                res = objStudent.insert(stu);
+                if (res)
+                {
+                    TempData["msg"] = "Added successfully";
+                }
+                else
+                {
+                    TempData["msg"] = "Not Added. Something went wrong...!!";
+                }
+            }
+            TempData.Keep("msg");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditStudent(string id)
+        {
+            List<AddStudentModel> emp = objStudent.getData(id);
+            return View(emp.FirstOrDefault());
+        }
+
+        [HttpGet]
+        public IActionResult DeleteStudent(string id)
+        {
+            List<AddStudentModel> emp = objStudent.getData(id);
+            return View(emp.FirstOrDefault());
+        }
+
+        [HttpPost]
+        public IActionResult EditStudent(AddStudentModel stu)
+        {
+            bool res;
+            if (ModelState.IsValid)
+            {
+                res = objStudent.update(stu);
+                if (res)
+                {
+                    TempData["msg"] = "Updated successfully";
+                }
+                else
+                {
+                    TempData["msg"] = "Not Updated. Something went wrong...!!";
+                }
+            }
+            TempData.Keep("msg");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteStudent(AddStudentModel stu)
+        {
+            bool res;
+            if (ModelState.IsValid)
+            {
+                res = objStudent.delete(stu);
+                if (res)
+                {
+                    TempData["msg"] = "Deleted successfully";
+                }
+                else
+                {
+                    TempData["msg"] = "Not Deleted. Something went wrong...!!";
+                }
+            }
+            TempData.Keep("msg");
+            return RedirectToAction("Index");
+        }
     }
 }
